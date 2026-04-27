@@ -21,6 +21,7 @@ class User extends Authenticatable
         'rol',
         'rol_id',
         'trueques_exitosos',
+        'estado_aprobacion',
     ];
 
     public function isAdmin()

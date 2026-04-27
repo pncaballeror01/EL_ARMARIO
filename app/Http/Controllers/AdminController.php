@@ -19,8 +19,9 @@ class AdminController extends Controller
         $todasCamisetas = Camiseta::with(['user', 'images'])->latest()->get();
         $usuarios = User::where('rol', '!=', 'Superadministrador')->latest()->get();
         $intercambios = Trueque::with(['emisor', 'receptor'])->latest()->get();
+        $usuariosPendientes = User::where('estado_aprobacion', 'pendiente')->latest()->get();
 
-        return view('admin.dashboard', compact('totalUsuarios', 'totalPublicaciones', 'totalIntercambios', 'pendientes', 'todasCamisetas', 'usuarios', 'intercambios'));
+        return view('admin.dashboard', compact('totalUsuarios', 'totalPublicaciones', 'totalIntercambios', 'pendientes', 'todasCamisetas', 'usuarios', 'intercambios', 'usuariosPendientes'));
     }
 
     public function aprobarCamiseta($id)
@@ -42,6 +43,23 @@ class AdminController extends Controller
         $camiseta->delete();
 
         return back()->with('success', 'Publicación RECHAZADA y eliminada del sistema.');
+    }
+
+    public function aprobarUsuario($id)
+    {
+        $user = User::findOrFail($id);
+        $user->update(['estado_aprobacion' => 'aprobada']);
+        return back()->with('success', 'Usuario APROBADO. Ya puede acceder a la plataforma.');
+    }
+
+    public function rechazarUsuario($id)
+    {
+        $user = User::findOrFail($id);
+        if($user->rol_id === 2) {
+            return back()->with('error', 'No puedes rechazar a un administrador.');
+        }
+        $user->delete();
+        return back()->with('success', 'Usuario RECHAZADO y purgado del sistema.');
     }
 
     public function editUser($id)

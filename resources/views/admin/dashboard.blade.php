@@ -485,8 +485,51 @@
                 </div>
             </div>
 
-            <!-- PENDIENTES -->
-            <div class="section-title text-danger mt-5 mb-3 border-b border-[#333] pb-2">VAR: PENDIENTES DE APROBACIÓN ({{ $pendientes->count() }})</div>
+            <!-- USUARIOS PENDIENTES -->
+            <div class="section-title text-danger mt-5 mb-3 border-b border-[#333] pb-2">VAR: USUARIOS PENDIENTES DE APROBACIÓN ({{ $usuariosPendientes->count() }})</div>
+            
+            @if($usuariosPendientes->count() == 0)
+                <div class="w-100 p-5 text-center mb-5" style="border: 1px dashed var(--border-color);">
+                    <span class="material-symbols-outlined text-muted" style="font-size: 3rem; margin-bottom: 1rem;">person_off</span>
+                    <h5 class="font-monospace text-muted">No hay usuarios pendientes de aprobación.</h5>
+                </div>
+            @else
+                <div class="cards-grid mb-5">
+                    @foreach($usuariosPendientes as $userPending)
+                        <div class="admin-item-card p-3">
+                            <div class="card-info p-0">
+                                <div class="item-title mb-2"><span class="text-primary">{{ '@' . $userPending->nombre_usuario }}</span></div>
+                                <div class="item-seller mb-1">
+                                    Email: <span>{{ $userPending->email }}</span>
+                                </div>
+                                <div class="item-seller mb-3">
+                                    Ciudad: <span>{{ $userPending->ciudad }}</span>
+                                </div>
+                                
+                                <div class="card-actions mt-3 pt-3 border-top border-dark">
+                                    <form action="{{ route('admin.aprobarUsuario', $userPending->id_usuario) }}" method="POST" class="m-0 p-0">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn-action w-100 btn-approve">
+                                            <span class="material-symbols-outlined" style="font-size: 1rem;">check</span> APROBAR
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.rechazarUsuario', $userPending->id_usuario) }}" method="POST" class="m-0 p-0" onsubmit="return confirm('¿Rechazar y borrar esta cuenta permanentemente?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn-action w-100 btn-reject">
+                                            <span class="material-symbols-outlined" style="font-size: 1rem;">close</span> RECHAZAR
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
+            <!-- PENDIENTES PUBLICACIONES -->
+            <div class="section-title text-danger mt-5 mb-3 border-b border-[#333] pb-2">VAR: PUBLICACIONES PENDIENTES ({{ $pendientes->count() }})</div>
             
             @if($pendientes->count() == 0)
                 <div class="w-100 p-5 text-center mb-5" style="border: 1px dashed var(--border-color);">
