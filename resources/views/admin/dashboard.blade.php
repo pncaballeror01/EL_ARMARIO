@@ -489,9 +489,9 @@
             <div class="section-title text-danger mt-5 mb-3 border-b border-[#333] pb-2">VAR: USUARIOS PENDIENTES DE APROBACIÓN ({{ $usuariosPendientes->count() }})</div>
             
             @if($usuariosPendientes->count() == 0)
-                <div class="w-100 p-5 text-center mb-5" style="border: 1px dashed var(--border-color);">
-                    <span class="material-symbols-outlined text-muted" style="font-size: 3rem; margin-bottom: 1rem;">person_off</span>
-                    <h5 class="font-monospace text-muted">No hay usuarios pendientes de aprobación.</h5>
+                <div class="w-100 p-5 text-center mb-5 admin-item-card d-flex flex-column align-items-center justify-content-center" style="min-height: 250px;">
+                    <span class="material-symbols-outlined" style="font-size: 4rem; color: #333; margin-bottom: 1rem;">person_check</span>
+                    <h5 class="font-monospace" style="color: #666; letter-spacing: 1px; margin: 0;">NO HAY USUARIOS PENDIENTES</h5>
                 </div>
             @else
                 <div class="cards-grid mb-5">
@@ -532,9 +532,9 @@
             <div class="section-title text-danger mt-5 mb-3 border-b border-[#333] pb-2">VAR: PUBLICACIONES PENDIENTES ({{ $pendientes->count() }})</div>
             
             @if($pendientes->count() == 0)
-                <div class="w-100 p-5 text-center mb-5" style="border: 1px dashed var(--border-color);">
-                    <span class="material-symbols-outlined text-muted" style="font-size: 3rem; margin-bottom: 1rem;">drafts</span>
-                    <h5 class="font-monospace text-muted">Bandeja de moderación limpia.</h5>
+                <div class="w-100 p-5 text-center mb-5 admin-item-card d-flex flex-column align-items-center justify-content-center" style="min-height: 250px;">
+                    <span class="material-symbols-outlined" style="font-size: 4rem; color: #333; margin-bottom: 1rem;">inventory_2</span>
+                    <h5 class="font-monospace" style="color: #666; letter-spacing: 1px; margin: 0;">BANDEJA DE MODERACIÓN LIMPIA</h5>
                 </div>
             @else
                 <div class="cards-grid mb-5">
@@ -608,11 +608,13 @@
                                     <a href="{{ route('admin.editUser', $user->id_usuario) }}" class="btn btn-sm btn-outline-primary font-monospace rounded-0 border-primary text-primary hover:bg-primary hover:text-black">
                                         EDITAR
                                     </a>
+                                    @if(auth()->id() !== $user->id_usuario)
                                     <form action="{{ route('admin.destroyUser', $user->id_usuario) }}" method="POST" onsubmit="return confirm('¿Eliminar usuario definitivamente? Todo su inventario caerá con él.');" class="m-0">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger font-monospace border-[#ff0055] text-[#ff0055] hover:bg-[#ff0055] hover:text-white rounded-0">ELIMINAR</button>
                                     </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
