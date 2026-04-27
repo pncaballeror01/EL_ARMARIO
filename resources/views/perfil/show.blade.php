@@ -13,16 +13,24 @@
     }
 
     .avatar-neon {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
-        border: 4px solid #E7FF00;
-        box-shadow: 0 0 20px rgba(231, 255, 0, 0.4), inset 0 0 10px rgba(231, 255, 0, 0.1);
+        border: 3px solid #E7FF00;
+        box-shadow: 0 0 15px rgba(231, 255, 0, 0.4), inset 0 0 10px rgba(231, 255, 0, 0.1);
         background-color: #1a1a1a;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+    }
+    @media (min-width: 768px) {
+        .avatar-neon {
+            width: 120px;
+            height: 120px;
+            border: 4px solid #E7FF00;
+            box-shadow: 0 0 20px rgba(231, 255, 0, 0.4);
+        }
     }
 
     .stat-module {
@@ -39,16 +47,20 @@
     .stat-value {
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 800;
-        font-size: 2.5rem;
+        font-size: 1.75rem;
         color: white;
         line-height: 1;
     }
     .stat-label {
         font-family: monospace;
         color: #888;
-        font-size: 0.85rem;
-        letter-spacing: 2px;
+        font-size: 0.65rem;
+        letter-spacing: 1px;
         margin-top: 0.5rem;
+    }
+    @media (min-width: 768px) {
+        .stat-value { font-size: 2.5rem; }
+        .stat-label { font-size: 0.85rem; letter-spacing: 2px; }
     }
 
     .card-inventario {
@@ -99,10 +111,13 @@
         font-style: italic;
         text-transform: uppercase;
         color: white;
-        font-size: 2rem;
+        font-size: 1.5rem;
         letter-spacing: -1px;
         position: relative;
         display: inline-block;
+    }
+    @media (min-width: 768px) {
+        .title-graffiti { font-size: 2rem; }
     }
     .title-graffiti::after {
         content: "";
@@ -141,19 +156,19 @@
         <div class="row align-items-center gy-4">
 
             {{-- Avatar + datos --}}
-            <div class="col-lg-6 d-flex align-items-center gap-4">
+            <div class="col-lg-6 d-flex flex-column flex-sm-row align-items-center text-center text-sm-start gap-3 gap-md-4">
                 <div class="avatar-neon">
-                    <span class="material-symbols-outlined text-white" style="font-size: 3.5rem; color: #E7FF00 !important;">person</span>
+                    <span class="material-symbols-outlined text-white" style="font-size: clamp(2.5rem, 5vw, 3.5rem); color: #E7FF00 !important;">person</span>
                 </div>
                 <div>
-                    <h2 class="stencil-text text-white mb-1" style="font-size: 2rem;">
+                    <h2 class="stencil-text text-white mb-1" style="font-size: clamp(1.5rem, 4vw, 2rem);">
                         {{ '@' . $perfil->nombre_usuario }}
                     </h2>
-                    <p class="mb-2 fs-6 font-monospace" style="color: #E7FF00;">
+                    <p class="mb-2 fs-6 font-monospace text-truncate" style="color: #E7FF00; max-width: 250px;">
                         {{ $perfil->nombre_completo ?? $perfil->nombre_usuario }}
                     </p>
                     @if($perfil->ciudad)
-                    <div class="d-flex align-items-center gap-1 font-monospace small" style="color: #ccc;">
+                    <div class="d-flex align-items-center justify-content-center justify-content-sm-start gap-1 font-monospace small" style="color: #ccc;">
                         <span class="material-symbols-outlined" style="font-size: 1rem; color: #E7FF00;">location_on</span>
                         <span>{{ strtoupper($perfil->ciudad) }}</span>
                     </div>

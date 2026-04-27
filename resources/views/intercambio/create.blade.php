@@ -13,11 +13,17 @@
     }
     .page-title {
         font-family: Impact, 'Space Grotesk', sans-serif;
-        font-size: 4rem;
+        font-size: 2rem;
         font-weight: 900;
         text-transform: uppercase;
         color: #ccff00;
         letter-spacing: 1px;
+    }
+    @media (min-width: 576px) {
+        .page-title { font-size: 3rem; }
+    }
+    @media (min-width: 768px) {
+        .page-title { font-size: 4rem; }
     }
     
     .section-title {
@@ -132,9 +138,9 @@
     </div>
 </nav>
 
-<div class="title-banner py-4 px-3 text-center">
+<div class="title-banner py-4 px-3 px-md-5 text-center">
     <h1 class="page-title mb-0">HAGAMOS TRATO.</h1>
-    <p class="font-monospace mt-2 text-white">SYS.REQ // INICIAR PROTOCOLO DE INTERCAMBIO</p>
+    <p class="font-monospace mt-2 text-white small">SYS.REQ // INICIAR PROTOCOLO DE INTERCAMBIO</p>
 </div>
 
 <section class="py-5 bg-black" style="min-height: 70vh;">

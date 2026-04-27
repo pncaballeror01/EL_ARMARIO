@@ -23,20 +23,32 @@
     .custom-hover:hover .stencil-text, .custom-hover:hover span { color: #ccff00 !important; }
     
     .gallery-main {
-        height: 600px;
+        height: 320px;
         object-fit: cover;
         width: 100%;
         border: 1px solid #333;
     }
+    @media (min-width: 576px) {
+        .gallery-main { height: 420px; }
+    }
+    @media (min-width: 992px) {
+        .gallery-main { height: 560px; }
+    }
     
     .gallery-thumb {
-        height: 120px;
+        height: 80px;
         object-fit: cover;
         width: 100%;
         border: 1px solid #333;
         cursor: pointer;
         opacity: 0.6;
         transition: all 0.3s;
+    }
+    @media (min-width: 576px) {
+        .gallery-thumb { height: 100px; }
+    }
+    @media (min-width: 992px) {
+        .gallery-thumb { height: 120px; }
     }
     
     .gallery-thumb:hover, .gallery-thumb.active {
@@ -48,7 +60,27 @@
     .info-panel {
         background-color: #0a0a0a;
         border: 1px solid #333;
-        padding: 2rem;
+        padding: 1.25rem;
+    }
+    @media (min-width: 768px) {
+        .info-panel { padding: 2rem; }
+    }
+
+    /* Title size responsive */
+    .info-panel h1.stencil-text {
+        font-size: 2rem !important;
+    }
+    @media (min-width: 576px) {
+        .info-panel h1.stencil-text { font-size: 2.5rem !important; }
+    }
+    @media (min-width: 992px) {
+        .info-panel h1.stencil-text { font-size: 3rem !important; }
+    }
+
+    /* Owner + badge wrap on mobile */
+    .info-panel .d-flex.align-items-center.gap-3 {
+        flex-wrap: wrap;
+        gap: 0.5rem !important;
     }
     
     .btn-buy {
@@ -57,25 +89,15 @@
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 800;
         text-transform: uppercase;
-        font-size: 1.2rem;
-        letter-spacing: 2px;
+        font-size: 1rem;
+        letter-spacing: 1px;
         border: 2px solid #000;
         box-shadow: 0 4px 0 #000;
         transition: all 0.1s ease;
         width: 100%;
     }
-    .btn-buy {
-        background-color: #ccff00;
-        color: #000;
-        font-family: 'Space Grotesk', sans-serif;
-        font-weight: 800;
-        text-transform: uppercase;
-        font-size: 1.2rem;
-        letter-spacing: 2px;
-        border: 2px solid #000;
-        box-shadow: 0 4px 0 #000;
-        transition: all 0.1s ease;
-        width: 100%;
+    @media (min-width: 576px) {
+        .btn-buy { font-size: 1.2rem; letter-spacing: 2px; }
     }
     .btn-buy:hover {
         transform: translateY(2px);
@@ -97,7 +119,7 @@
     }
 </style>
 
-<section class="py-5" style="background-color: #000; min-height: 90vh;">
+<section class="py-4 py-md-5" style="background-color: #000; min-height: 90vh;">
     <div class="container">
         <div class="row g-5">
             <!-- GALERÍA DE IMÁGENES -->

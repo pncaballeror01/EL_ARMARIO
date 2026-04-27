@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $perfil = auth()->user();
+@endphp
 <style>
-    /* Estilos Específicos del Armario Industrial */
     .header-taquilla {
         background-color: #0a0a0a;
         background-image:
@@ -12,47 +14,32 @@
         border-bottom: 2px solid #333;
         position: relative;
     }
-    .header-taquilla::after {
-        content: "RESTRICTED AREA";
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-family: 'Space Grotesk', sans-serif;
-        font-weight: 800;
-        font-size: 4rem;
-        color: rgba(255, 255, 255, 0.02);
-        transform: rotate(-10deg);
-        pointer-events: none;
-        user-select: none;
-    }
 
     .avatar-neon {
-        width: 150px;
-        height: 150px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
-        border: 4px solid var(--primary-color);
-        box-shadow: 0 0 20px rgba(231, 255, 0, 0.4), inset 0 0 10px rgba(231, 255, 0, 0.4);
-        object-fit: cover;
+        border: 3px solid #E7FF00;
+        box-shadow: 0 0 15px rgba(231, 255, 0, 0.4), inset 0 0 10px rgba(231, 255, 0, 0.1);
         background-color: #1a1a1a;
-        padding: 4px;
-    }
-    
-    .avatar-placeholder {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background-color: #222;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--primary-color);
-        font-size: 3rem;
+        flex-shrink: 0;
+    }
+    @media (min-width: 768px) {
+        .avatar-neon {
+            width: 120px;
+            height: 120px;
+            border: 4px solid #E7FF00;
+            box-shadow: 0 0 20px rgba(231, 255, 0, 0.4);
+        }
     }
 
     .stat-module {
         background-color: #1A1A1A;
         border: 1px solid #333;
-        border-left: 4px solid var(--primary-color);
+        border-left: 4px solid #E7FF00;
         padding: 1.5rem;
         transition: all 0.3s ease;
     }
@@ -63,28 +50,102 @@
     .stat-value {
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 800;
-        font-size: 2.5rem;
+        font-size: 1.75rem;
         color: white;
         line-height: 1;
     }
     .stat-label {
         font-family: monospace;
         color: #888;
-        font-size: 0.85rem;
-        letter-spacing: 2px;
+        font-size: 0.65rem;
+        letter-spacing: 1px;
         margin-top: 0.5rem;
     }
+    @media (min-width: 768px) {
+        .stat-value { font-size: 2.5rem; }
+        .stat-label { font-size: 0.85rem; letter-spacing: 2px; }
+    }
 
+    .card-inventario {
+        background-color: #1A1A1A;
+        border: 1px solid #333;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .card-inventario:hover {
+        border-color: #E7FF00;
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(231, 255, 0, 0.1);
+    }
+    .card-inventario img {
+        height: 260px;
+        object-fit: cover;
+        width: 100%;
+        border-bottom: 1px solid #333;
+        transition: transform 0.5s ease;
+    }
+    .card-inventario:hover img {
+        transform: scale(1.04);
+    }
+
+    .badge-disponible {
+        background-color: #000;
+        color: #E7FF00;
+        border: 2px solid #E7FF00;
+        box-shadow: 0 0 10px rgba(231, 255, 0, 0.4);
+        font-size: 0.65rem;
+        font-weight: 900;
+        letter-spacing: 1px;
+        padding: 3px 8px;
+    }
+    .badge-nodisponible {
+        background-color: #1a1a1a;
+        color: #ff0055;
+        border: 1px solid #ff0055;
+        font-size: 0.65rem;
+        font-weight: 900;
+        letter-spacing: 1px;
+        padding: 3px 8px;
+    }
+
+    .title-graffiti {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 800;
+        font-style: italic;
+        text-transform: uppercase;
+        color: white;
+        font-size: 1.5rem;
+        letter-spacing: -1px;
+        position: relative;
+        display: inline-block;
+    }
+    @media (min-width: 768px) {
+        .title-graffiti { font-size: 2rem; }
+    }
+    .title-graffiti::after {
+        content: "";
+        position: absolute;
+        bottom: 4px;
+        left: 0;
+        width: 100%;
+        height: 12px;
+        background-color: #E7FF00;
+        z-index: -1;
+        opacity: 0.4;
+        transform: skewX(-15deg);
+    }
+
+    /* Boton de Mando */
     .btn-mando {
-        background-color: var(--primary-color);
+        background-color: #E7FF00;
         color: #000;
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 800;
         text-transform: uppercase;
-        font-size: 1.5rem;
-        letter-spacing: 2px;
-        border: 3px solid #000;
-        box-shadow: 0 6px 0 #000, 0 0 20px rgba(231, 255, 0, 0.3);
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        border: 2px solid #000;
+        box-shadow: 0 4px 0 #000, 0 0 20px rgba(231, 255, 0, 0.3);
         transition: all 0.1s ease;
         width: 100%;
         padding: 1rem;
@@ -94,6 +155,9 @@
         gap: 15px;
         position: relative;
         overflow: hidden;
+    }
+    @media (min-width: 768px) {
+        .btn-mando { font-size: 1.5rem; letter-spacing: 2px; }
     }
     .btn-mando::before {
         content: "";
@@ -108,203 +172,79 @@
     }
     .btn-mando:hover {
         transform: translateY(2px);
-        box-shadow: 0 4px 0 #000, 0 0 25px rgba(231, 255, 0, 0.5);
-    }
-    .btn-mando:active {
-        transform: translateY(6px);
-        box-shadow: 0 0 0 #000, 0 0 15px rgba(231, 255, 0, 0.2);
+        box-shadow: 0 2px 0 #000, 0 0 25px rgba(231, 255, 0, 0.5);
     }
 
-    .franja-peligro {
-        background: repeating-linear-gradient(
-            45deg,
-            var(--primary-color),
-            var(--primary-color) 10px,
-            #000 10px,
-            #000 20px
-        );
-        height: 10px;
-        width: 100%;
-    }
-
-    .title-graffiti {
-        font-family: 'Space Grotesk', sans-serif;
-        font-weight: 800;
-        font-style: italic;
-        text-transform: uppercase;
-        color: white;
-        font-size: 2.5rem;
-        letter-spacing: -1px;
-        margin-bottom: 2rem;
-        position: relative;
-        display: inline-block;
-    }
-    .title-graffiti::after {
-        content: "";
-        position: absolute;
-        bottom: 5px;
-        left: 0;
-        width: 100%;
-        height: 15px;
-        background-color: var(--primary-color);
-        z-index: -1;
-        opacity: 0.5;
-        transform: skewX(-15deg);
-    }
-
-    .card-inventario {
-        background-color: #1A1A1A;
-        border: 1px solid #333;
-        border-radius: 0;
-        transition: all 0.3s ease;
-    }
-    .card-inventario:hover {
-        border-color: #666;
-        transform: translateY(-5px);
-    }
-    .card-inventario img {
-        height: 250px;
-        object-fit: cover;
-        border-bottom: 1px solid #333;
-        /* IMPORTANTE: Sin desenfoque, nítido */
-        filter: none !important;
-    }
-    .tech-data {
-        font-family: monospace;
-        color: #bbb;
-        font-size: 0.8rem;
-    }
-    
-    .btn-tech-editar {
-        border: 1px solid var(--primary-color);
-        color: var(--primary-color);
-        background: transparent;
-        font-family: monospace;
-        font-weight: bold;
-        transition: all 0.2s;
-        border-radius: 0;
-    }
-    .btn-tech-editar:hover {
-        background: var(--primary-color);
-        color: #000;
-    }
-    
-    .btn-tech-eliminar {
-        border: 1px solid #555;
-        color: #888;
-        background: transparent;
-        font-family: monospace;
-        font-weight: bold;
-        transition: all 0.2s;
-        border-radius: 0;
-    }
-    .btn-tech-eliminar:hover {
-        border-color: #dc3545;
-        color: #dc3545;
-        background: rgba(220, 53, 69, 0.1);
-    }
-
-    .btn-buzon-landing {
-        height: 2.5rem;
-        padding: 0 1.5rem;
-        border: 2px solid #333;
-        font-size: 0.875rem;
-        font-family: monospace;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        background-color: rgba(0, 0, 0, 0.4);
-        color: white !important;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        transition: all 0.2s ease-in-out;
-        text-decoration: none;
-    }
-    .btn-buzon-landing:hover {
-        border-color: white;
-    }
-    .btn-buzon-badge {
-        background-color: #dc2626;
-        color: white;
-        border-radius: 9999px;
-        padding: 0.125rem 0.5rem;
-        font-size: 0.65rem;
-        line-height: 1;
-    }
+    /* Marquee */
+    .animate-marquee { display: flex; white-space: nowrap; animation: marquee 25s linear infinite; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
 </style>
 
-<div class="py-1 border-bottom border-dark overflow-hidden" style="background-color: #ccff00 !important;">
+<div class="py-1 border-bottom border-dark overflow-hidden" style="background-color: #E7FF00 !important;">
     <div class="animate-marquee fw-bold font-monospace small" style="color: #000 !important;">
         <span class="mx-5">ESTADO DEL SISTEMA: OPERATIVO</span>
         <span class="mx-5">USUARIO: {{ strtoupper(Auth::user()->nombre_usuario ?? 'GUEST') }}</span>
         <span class="mx-5">UBICACIÓN: {{ strtoupper(Auth::user()->ciudad ?? 'MADRID HUB') }}</span>
         <span class="mx-5">ESTADO DEL SISTEMA: OPERATIVO</span>
         <span class="mx-5">USUARIO: {{ strtoupper(Auth::user()->nombre_usuario ?? 'GUEST') }}</span>
+        <span class="mx-5">UBICACIÓN: {{ strtoupper(Auth::user()->ciudad ?? 'MADRID HUB') }}</span>
     </div>
 </div>
 
-<!-- NAVEGACIÓN SUPERIOR (VOLVER) -->
-<nav class="bg-black py-3 border-bottom border-secondary">
+<nav class="bg-black py-3 border-bottom border-secondary sticky-top" style="border-color: #333 !important;">
     <div class="container d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center gap-4">
-            <a href="{{ url('/') }}" class="text-decoration-none d-flex align-items-center text-white custom-hover">
-                <span class="material-symbols-outlined me-2" style="color: #ccff00">arrow_back</span>
-                <span class="material-symbols-outlined me-2" style="color: #ccff00">checkroom</span>
-                <span class="stencil-text h4 mb-0">EL ARMARIO</span>
-            </a>
-            <a href="{{ route('buzon.index') }}" class="btn-buzon-landing">
-                <span class="material-symbols-outlined" style="font-size: 1.1rem;">inbox</span>
-                BUZÓN
-                @if(auth()->check() && auth()->user()->unreadMessagesCount() > 0)
-                    <span class="btn-buzon-badge">{{ auth()->user()->unreadMessagesCount() }}</span>
-                @endif
-            </a>
-        </div>
+        <a href="{{ url('/') }}" class="p-0 d-flex align-items-center gap-2 text-white text-decoration-none" style="background: none; border: none; cursor: pointer;">
+            <span class="material-symbols-outlined" style="color: #E7FF00;">arrow_back</span>
+            <span class="font-monospace" style="font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;">VOLVER</span>
+        </a>
+
+        <a href="{{ url('/') }}" class="text-decoration-none d-flex align-items-center gap-2 text-white">
+            <span class="material-symbols-outlined" style="color: #E7FF00;">checkroom</span>
+            <span class="stencil-text h5 mb-0">EL ARMARIO</span>
+        </a>
     </div>
 </nav>
-<style>
-    .custom-hover:hover .stencil-text, .custom-hover:hover span { color: #ccff00 !important; }
-</style>
 
-<!-- HEADER DEL PERFIL: La Taquilla del Coleccionista -->
+{{-- HEADER PERFIL --}}
 <section class="header-taquilla py-5">
-    <div class="container relative z-10">
+    <div class="container">
         <div class="row align-items-center gy-4">
-            
-            <!-- Avatar y Datos -->
-            <div class="col-lg-6 d-flex align-items-center gap-4">
-                <div class="avatar-neon flex-shrink-0">
-                    <!-- Si el usuario no tiene foto, mostrar un icono o inicial -->
-                    <div class="avatar-placeholder">
-                        <span class="material-symbols-outlined" style="font-size: 4rem;">person</span>
-                    </div>
+
+            {{-- Avatar + datos --}}
+            <div class="col-lg-6 d-flex flex-column flex-sm-row align-items-center text-center text-sm-start gap-3 gap-md-4">
+                <div class="avatar-neon">
+                    <span class="material-symbols-outlined text-white" style="font-size: clamp(2.5rem, 5vw, 3.5rem); color: #E7FF00 !important;">person</span>
                 </div>
                 <div>
-                    <h2 class="stencil-text text-white mb-1" style="font-size: 2rem;">{{ '@' . (Auth::user()->nombre_usuario ?? 'USUARIO') }}</h2>
-                    <p class="mb-2 fs-5 text-uppercase" style="color: #ccff00 !important;">{{ Auth::user()->nombre_usuario ?? 'Usuario' }}</p>
-                    <div class="d-flex align-items-center gap-3 font-monospace small text-muted">
-                        <span class="d-flex align-items-center gap-1" style="color: #ccff00 !important;">
-                            <span class="material-symbols-outlined fs-6" style="color: #ccff00 !important;">location_on</span>
-                            {{ Auth::user()->ciudad ?? 'Cargando ciudad...' }}
-                        </span>
+                    <h2 class="stencil-text text-white mb-1" style="font-size: clamp(1.5rem, 4vw, 2rem);">
+                        {{ '@' . $perfil->nombre_usuario }}
+                    </h2>
+                    <p class="mb-2 fs-6 font-monospace text-truncate" style="color: #E7FF00; max-width: 250px;">
+                        {{ $perfil->nombre_completo ?? $perfil->nombre_usuario }}
+                    </p>
+                    @if($perfil->ciudad)
+                    <div class="d-flex align-items-center justify-content-center justify-content-sm-start gap-1 font-monospace small" style="color: #ccc;">
+                        <span class="material-symbols-outlined" style="font-size: 1rem; color: #E7FF00;">location_on</span>
+                        <span>{{ strtoupper($perfil->ciudad) }}</span>
                     </div>
+                    @endif
+                    <span class="font-monospace mt-2 d-inline-block" style="font-size: 0.7rem; color: #888; letter-spacing: 2px; text-transform: uppercase;">/// TU PERFIL</span>
                 </div>
             </div>
 
-            <!-- Bloques de Estadísticas Industriales -->
+            {{-- Stats --}}
             <div class="col-lg-6">
                 <div class="row g-3">
                     <div class="col-6">
-                        <div class="stat-module text-center h-100 d-flex flex-column justify-content-center">
+                        <div class="stat-module text-center">
                             <div class="stat-value">{{ $camisetas->count() }}</div>
-                            <div class="stat-label">CAMISETAS</div>
+                            <div class="stat-label">PIEZAS SUBIDAS</div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="stat-module text-center h-100 d-flex flex-column justify-content-center">
-                            <div class="stat-value">{{ auth()->user()->trueques_exitosos }}</div>
+                        <div class="stat-module text-center">
+                            <div class="stat-value">{{ $perfil->trueques_exitosos ?? 0 }}</div>
                             <div class="stat-label">TRUEQUES EXITOSOS</div>
                         </div>
                     </div>
@@ -315,64 +255,87 @@
     </div>
 </section>
 
-<!-- BOTÓN PRINCIPAL "SUBIR NUEVA" -->
-<section class="bg-black py-4 border-bottom border-dark">
+{{-- BOTÓN SUBIR --}}
+<section class="bg-black py-4 border-bottom" style="border-bottom-color: #333 !important;">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
+            <div class="col-12 col-md-10 col-lg-8">
                 <a href="{{ route('camisetas.create') }}" class="btn-mando text-decoration-none">
-                    <span class="material-symbols-outlined" style="font-size: 2rem; font-weight: 800;">power_settings_new</span>
-                    + SUBIR NUEVA JOYA AL ARMARIO &rarr;
+                    <span class="material-symbols-outlined font-weight-bold" style="font-size: inherit;">add_circle</span>
+                    AÑADIR NUEVA JOYA AL ARMARIO
                 </a>
-                <div class="franja-peligro mt-2"></div>
             </div>
         </div>
     </div>
 </section>
 
+{{-- FRANJA DECORATIVA --}}
+<div style="height: 8px; background: repeating-linear-gradient(45deg, #E7FF00, #E7FF00 10px, #000 10px, #000 20px);"></div>
+
+{{-- GRID DE CAMISETAS --}}
 <section class="py-5" style="background-color: #050505; min-height: 50vh;">
     <div class="container">
-        
-        <h3 class="title-graffiti">TU INVENTARIO ACTIVO</h3>
-        
-        <div class="row g-4 mt-2">
-            
-            @forelse($camisetas as $camiseta)
+
+        <h3 class="title-graffiti mb-4">
+            TU INVENTARIO
+        </h3>
+
+        @if($camisetas->isEmpty())
+            <div class="py-5 text-center border" style="border-color: #333 !important; background-color: #1a1a1a;">
+                <span class="material-symbols-outlined mb-3" style="font-size: 3rem; color: #555;">inventory_2</span>
+                <h4 class="stencil-text text-white">TU ARMARIO ESTÁ VACÍO</h4>
+                <p class="font-monospace" style="color: #666;">Aún no has subido ninguna pieza. ¡Añade tu primera joya!</p>
+            </div>
+        @else
+            <div class="row g-4">
+                @foreach($camisetas as $camiseta)
                 <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card card-inventario h-100 position-relative">
-                        <a href="{{ route('camisetas.show', $camiseta->id) }}" class="text-decoration-none d-block">
-                            <div class="position-relative overflow-hidden" style="height: 350px;">
+                    <a href="{{ route('camisetas.show', $camiseta->id) }}" class="text-decoration-none d-block">
+                        <div class="card-inventario h-100 position-relative overflow-hidden">
+                            {{-- Imagen --}}
+                            <div class="overflow-hidden" style="height: 260px;">
                                 @if($camiseta->images->isNotEmpty())
-                                    <img src="{{ Storage::url($camiseta->images->first()->image_path) }}" class="img-fluid w-100 h-100 object-fit-cover rounded-0" alt="Camiseta {{ $camiseta->equipo }}" style="transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                    <img src="{{ Storage::url($camiseta->images->first()->image_path) }}"
+                                         alt="{{ $camiseta->equipo }}">
                                 @else
-                                    <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-dark text-white rounded-0">
-                                        <span class="material-symbols-outlined fs-1">image_not_supported</span>
+                                    <div class="w-100 h-100 d-flex align-items-center justify-content-center"
+                                         style="background-color: #111; height: 260px;">
+                                        <span class="material-symbols-outlined" style="font-size: 3rem; color: #444;">image_not_supported</span>
                                     </div>
                                 @endif
                             </div>
-                            <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-black bg-opacity-75 d-flex justify-content-between align-items-center">
-                                <h5 class="text-white font-monospace fw-bold text-uppercase mb-0 m-0 text-truncate" style="max-width: 80%;">{{ $camiseta->equipo }}</h5>
+
+                            {{-- Badge disponibilidad --}}
+                            <div class="position-absolute top-0 end-0 m-2">
                                 @if($camiseta->intercambiable)
-                                    <span class="badge font-monospace px-2 py-1 text-uppercase" style="background-color: #000; color: #ccff00; border: 2px solid #ccff00 !important; box-shadow: 0 0 10px rgba(204, 255, 0, 0.4); font-size: 0.7rem; font-weight: 900;">DISPONIBLE</span>
+                                    <span class="badge-disponible font-monospace text-uppercase">DISPONIBLE</span>
                                 @else
-                                    <span class="badge font-monospace px-2 py-1 text-uppercase" style="background-color: #1a1a1a; color: #ff0055; border: 1px solid #ff0055 !important; font-size: 0.7rem; font-weight: 900;">NO DISPONIBLE</span>
+                                    <span class="badge-nodisponible font-monospace text-uppercase">NO DISP.</span>
                                 @endif
                             </div>
-                        </a>
-                    </div>
+
+                            {{-- Info overlay --}}
+                            <div class="p-3" style="background-color: #1a1a1a; border-top: 1px solid #333;">
+                                <h5 class="text-white font-monospace fw-bold text-uppercase text-truncate mb-1" style="font-size: 0.95rem;">
+                                    {{ $camiseta->equipo }}
+                                </h5>
+                                <div class="d-flex justify-content-between font-monospace" style="font-size: 0.75rem; color: #888;">
+                                    <span>TALLA: <span class="text-white fw-bold">{{ $camiseta->talla }}</span></span>
+                                    <span>{{ $camiseta->año }}</span>
+                                </div>
+                                @if($camiseta->images->count() > 1)
+                                <div class="mt-1" style="font-size: 0.7rem; color: #555; font-family: monospace;">
+                                    <span class="material-symbols-outlined" style="font-size: 0.85rem; vertical-align: middle;">photo_library</span>
+                                    {{ $camiseta->images->count() }} FOTOS
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            @empty
-                <div class="col-12 py-5 text-center">
-                    <div class="p-5 border border-secondary text-center" style="background-color: #1a1a1a;">
-                        <span class="material-symbols-outlined mb-3 text-white-50" style="font-size: 3rem;">inventory_2</span>
-                        <h4 class="stencil-text text-white">TU ARMARIO ESTÁ VACÍO</h4>
-                        <p class="font-monospace text-light mb-4">Aún no has subido ninguna pieza de colección.</p>
-                        <a href="{{ route('camisetas.create') }}" class="btn py-2 px-4 shadow-sm" style="background-color: #ccff00; color: #000; font-family: 'Space Grotesk', sans-serif; font-weight: 800; border: none;">
-                            AÑADIR MI PRIMERA CAMISETA
-                        </a>
-                    </div>
-                </div>
-            @endforelse
+                @endforeach
+            </div>
+        @endif
     </div>
 </section>
 

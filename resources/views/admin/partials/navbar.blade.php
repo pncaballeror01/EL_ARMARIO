@@ -12,18 +12,7 @@
             </a>
         </div>
 
-        <div class="d-flex align-items-center gap-3">
-            <div class="d-none d-sm-flex align-items-center px-3 border border-secondary font-monospace small text-white" style="height: 2.5rem; background-color: rgba(0,0,0,0.4);">
-                ¡HOLA, <span class="fw-bold ms-1 text-uppercase">{{ Auth::user()->nombre_usuario ?? 'ADMIN' }}</span>!
-            </div>
-            <form action="{{ route('logout') }}" method="POST" class="m-0">
-                @csrf
-                <button type="submit" class="btn btn-outline-danger btn-sm rounded-0 fw-bold d-flex align-items-center gap-1" style="font-family: monospace; letter-spacing: 0.05em; height: 2.5rem; padding: 0 1rem;">
-                    <span class="material-symbols-outlined" style="font-size: 1.1rem;">logout</span>
-                    SALIR
-                </button>
-            </form>
-        </div>
+        {{-- Eliminado saludo y botón logout de aquí --}}
     </div>
 </nav>
 

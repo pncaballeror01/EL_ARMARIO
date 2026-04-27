@@ -14,11 +14,17 @@
     }
     .page-title {
         font-family: Impact, 'Space Grotesk', sans-serif;
-        font-size: 3.5rem;
+        font-size: 2rem;
         font-weight: 900;
         text-transform: uppercase;
         color: white;
         letter-spacing: 1px;
+    }
+    @media (min-width: 576px) {
+        .page-title { font-size: 2.5rem; }
+    }
+    @media (min-width: 768px) {
+        .page-title { font-size: 3.5rem; }
     }
     
     .card-grial {
@@ -161,9 +167,9 @@
                 <p class="font-monospace text-muted mb-0">Pronto llegarán nuevas joyas al catálogo.</p>
             </div>
         @else
-            <div class="row g-4 mb-5">
+            <div class="row g-3 g-md-4 mb-5">
                 @foreach($camisetas as $cam)
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-6 col-md-4 col-lg-3">
                         <div class="card-grial">
                             <div class="position-relative">
                                 @if($cam->images->isNotEmpty())

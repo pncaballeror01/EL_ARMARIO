@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container min-vh-100 d-flex align-items-center justify-content-center">
-        <div class="col-md-5 col-lg-4">
+    <div class="container min-vh-100 d-flex align-items-center justify-content-center py-4">
+        <div class="col-11 col-sm-8 col-md-5 col-lg-4">
             <div class="p-4 p-md-5 bg-black border-primary-armario shadow-lg position-relative">
 
                 <div class="text-center mb-5">

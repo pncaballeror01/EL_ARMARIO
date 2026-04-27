@@ -73,6 +73,11 @@
         font-size: 1.2rem;
     }
 
+    .nav-item-logout:hover {
+        color: var(--danger) !important;
+        border-left-color: var(--danger) !important;
+    }
+
     /* Content Area */
     .admin-content {
         flex: 1;
@@ -96,6 +101,8 @@
     .table-responsive-admin {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        width: 100%;
+        display: block;
     }
 
     /* Hamburguesa mobile */
@@ -129,18 +136,30 @@
             transform: translateX(0);
         }
         .admin-content {
-            padding: 1.5rem;
+            padding: 1rem;
+            width: 100%;
+            overflow-x: hidden;
         }
         .stats-grid {
             grid-template-columns: 1fr;
             gap: 1rem;
             margin-bottom: 2rem;
         }
+        .stat-card {
+            padding: 1.5rem 1rem;
+        }
+        .stat-title {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
         .cards-grid {
             grid-template-columns: 1fr;
         }
         .stat-value {
             font-size: 2.5rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
         }
     }
     @media (min-width: 992px) and (max-width: 1199px) {
@@ -341,6 +360,7 @@
     /* Tables */
     .admin-table {
         width: 100%;
+        min-width: 800px;
         border-collapse: collapse;
         font-family: monospace;
         font-size: 0.85rem;
@@ -352,12 +372,14 @@
         color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 1px;
+        white-space: nowrap;
     }
     .admin-table td {
         padding: 1rem;
         border-bottom: 1px solid #222;
         color: white;
         vertical-align: middle;
+        white-space: nowrap;
     }
     .admin-table tr:hover {
         background-color: #111;
@@ -404,6 +426,15 @@
             <span class="material-symbols-outlined">sync_alt</span>
             INTERCAMBIOS
         </div>
+
+        {{-- Botón SALIR al final del sidebar --}}
+        <form action="{{ route('logout') }}" method="POST" class="mt-auto border-top border-[#222]">
+            @csrf
+            <button type="submit" class="nav-item-admin nav-item-logout w-100 bg-transparent border-0" style="color: var(--danger);">
+                <span class="material-symbols-outlined">logout</span>
+                CERRAR SESIÓN
+            </button>
+        </form>
     </div>
 
     <!-- MAIN CONTENT -->
@@ -506,7 +537,7 @@
         <!-- TAB: PERFILES -->
         <div id="tab-perfiles" class="tab-content">
             <div class="section-title">CONTROL DE USUARIOS</div>
-            <div class="bg-panel border border-[#333] p-0" style="background-color: var(--bg-panel);">
+            <div class="bg-panel border border-[#333] p-0 table-responsive-admin" style="background-color: var(--bg-panel);">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -556,7 +587,7 @@
         <div id="tab-publicaciones" class="tab-content">
             <!-- TODAS -->
             <div class="section-title mt-5 mb-3 border-b border-[#333] pb-2">TODAS LAS PUBLICACIONES</div>
-            <div class="bg-panel border border-[#333] p-0" style="background-color: var(--bg-panel);">
+            <div class="bg-panel border border-[#333] p-0 table-responsive-admin" style="background-color: var(--bg-panel);">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -603,9 +634,10 @@
         <!-- TAB: INTERCAMBIOS -->
         <div id="tab-intercambios" class="tab-content">
             <div class="section-title">REGISTRO DE INTERCAMBIOS COMPLETADOS</div>
-            <div class="bg-panel border border-[#333] p-0" style="background-color: var(--bg-panel);">
+            <div class="bg-panel border border-[#333] p-0 table-responsive-admin" style="background-color: var(--bg-panel);">
                 <table class="admin-table">
                     <thead>
+
                         <tr>
                             <th>ID TRUEQUE</th>
                             <th>FECHA ACUERDO</th>

@@ -1,22 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<nav class="bg-black py-3 border-bottom border-secondary fixed-top">
+<nav class="bg-black py-2 md:py-3 border-bottom border-secondary fixed-top">
     <div class="container d-flex justify-content-between align-items-center">
         <a href="{{ route('buzon.index') }}" class="text-decoration-none d-flex align-items-center text-white custom-hover">
-            <span class="material-symbols-outlined me-2" style="color: #ccff00">arrow_back</span>
-            <span class="stencil-text h5 mb-0">VOLVER AL BUZÓN</span>
+            <span class="material-symbols-outlined me-1 md:me-2" style="color: #ccff00">arrow_back</span>
+            <span class="stencil-text fs-6 fs-md-5 mb-0 d-none d-sm-block">VOLVER AL BUZÓN</span>
+            <span class="stencil-text fs-6 fs-md-5 mb-0 d-sm-none">VOLVER</span>
         </a>
         <div class="d-flex align-items-center gap-2">
-            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: #222; border: 2px solid var(--primary-color);">
-                <span class="material-symbols-outlined text-primary fs-5">person</span>
+            <div class="w-[35px] h-[35px] md:w-[40px] md:h-[40px] rounded-circle d-flex align-items-center justify-content-center bg-[#222]" style="border: 2px solid var(--primary-color);">
+                <span class="material-symbols-outlined text-primary fs-6 md:fs-5">person</span>
             </div>
-            <span class="stencil-text text-white fs-5">{{ strtoupper($otherUser->nombre_usuario) }}</span>
+            <span class="stencil-text text-white fs-6 md:fs-5 text-truncate" style="max-width: 150px;">{{ strtoupper($otherUser->nombre_usuario) }}</span>
         </div>
     </div>
 </nav>
 
-<section class="bg-grid-metal" style="background-color: #050505; min-height: 100vh; padding-top: 80px; padding-bottom: 100px;">
+<section class="bg-grid-metal" style="background-color: #050505; min-height: 100vh; padding-top: 80px; padding-bottom: 120px;">
     <div class="container mt-4" style="max-width: 800px;">
         
         <div class="d-flex flex-column gap-3">
@@ -55,14 +56,14 @@
                             </div>
                             
                             @if($msg->trueque->estado === 'pendiente' && $msg->trueque->receptor_id === auth()->id())
-                                <div class="mt-4 pt-3 border-top border-secondary d-flex justify-content-center gap-3">
-                                    <form action="{{ route('trueques.reject', $msg->trueque->id) }}" method="POST">
+                                <div class="mt-4 pt-3 border-top border-secondary d-flex flex-column flex-md-row justify-content-center gap-2 md:gap-3">
+                                    <form action="{{ route('trueques.reject', $msg->trueque->id) }}" method="POST" class="w-100">
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-danger fw-bold font-monospace px-4 py-2 rounded-0">RECHAZAR</button>
+                                        <button type="submit" class="btn btn-outline-danger fw-bold font-monospace px-4 py-2 rounded-0 w-100">RECHAZAR</button>
                                     </form>
-                                    <form action="{{ route('trueques.accept', $msg->trueque->id) }}" method="POST">
+                                    <form action="{{ route('trueques.accept', $msg->trueque->id) }}" method="POST" class="w-100">
                                         @csrf
-                                        <button type="submit" class="btn fw-bold font-monospace px-4 py-2 rounded-0" style="background-color: var(--primary-color); color: #000;">ACEPTAR PROPUESTA</button>
+                                        <button type="submit" class="btn fw-bold font-monospace px-4 py-2 rounded-0 w-100" style="background-color: var(--primary-color); color: #000;">ACEPTAR PROPUESTA</button>
                                     </form>
                                 </div>
                             @elseif($msg->trueque->estado === 'aceptado')

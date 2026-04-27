@@ -39,7 +39,7 @@
                     keyframes: {
                         marquee: {
                             '0%': { transform: 'translateX(0%)' },
-                            '100%': { transform: 'translateX(-50%)' },
+                            '100%': { transform: 'translateX(-100%)' },
                         }
                     }
                 },
@@ -77,7 +77,7 @@
             <h1 class="text-xl md:text-2xl font-bold tracking-tighter stencil-text text-white group-hover:text-primary transition-colors duration-300">EL ARMARIO</h1>
         </a>
 
-        <div class="hidden md:flex items-center gap-4">
+        <div class="hidden lg:flex items-center gap-3 xl:gap-4">
             @if (Route::has('login'))
                 @auth
                     @if(auth()->user()->isAdmin())
@@ -103,9 +103,9 @@
                     </div>
                     <form method="POST" action="{{ route('logout') }}" class="m-0">
                         @csrf
-                        <button type="submit" class="h-10 px-6 border-2 border-[#ff0055] text-[#ff0055] hover:bg-[#ff0055] hover:text-white hover:border-[#ff0055] text-sm font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2">
+                        <button type="submit" class="h-10 px-3 xl:px-6 border-2 border-[#ff0055] text-[#ff0055] hover:bg-[#ff0055] hover:text-white hover:border-[#ff0055] text-[10px] xl:text-sm font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1 xl:gap-2">
                             <span class="material-symbols-outlined text-[1.1rem]">logout</span>
-                    SALIR
+                            SALIR
                         </button>
                     </form>
                 @else
@@ -123,58 +123,66 @@
             @endif
         </div>
 
-        <button id="menu-btn" class="md:hidden text-white p-2 z-50">
+        <button id="menu-btn" class="lg:hidden text-white p-2 z-[70]">
             <span class="material-symbols-outlined text-3xl">menu</span>
         </button>
     </div>
-
-    <div id="mobile-menu" class="fixed inset-0 bg-black/95 z-40 flex flex-col items-center justify-center gap-6 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden">
-        @if (Route::has('login'))
-            @auth
-                @if(auth()->user()->isAdmin())
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center justify-center gap-2 w-48 h-12 border-2 border-[#E7FF00] text-[#E7FF00] font-black uppercase tracking-wider text-sm">
-                        <span class="material-symbols-outlined text-[1.1rem]">security</span>
-                        PANEL ADMIN
-                    </a>
-                @else
-                    <a href="{{ url('/armario') }}" class="flex items-center justify-center gap-2 w-48 h-12 bg-primary text-black font-black uppercase tracking-wider text-sm shadow-neon border-2 border-primary">
-                        <span class="material-symbols-outlined text-[1.1rem]">checkroom</span>
-                        MI ARMARIO
-                    </a>
-                    <a href="{{ route('buzon.index') }}" class="flex items-center justify-center w-48 h-12 border-2 border-[#333] text-sm font-mono font-bold uppercase tracking-wider text-white gap-2">
-                        <span class="material-symbols-outlined text-[1.1rem]">inbox</span>
-                        BUZÓN
-                        @if(auth()->user()->unreadMessagesCount() > 0)
-                            <span class="bg-red-600 text-white rounded-full px-2 py-0.5 text-[0.65rem] leading-none">{{ auth()->user()->unreadMessagesCount() }}</span>
-                        @endif
-                    </a>
-                @endif
-                <div class="flex items-center justify-center w-48 h-12 border-2 border-[#333] text-text-dim font-mono text-sm tracking-wider">
-                    ¡HOLA, <span class="text-white font-bold ml-2">{{ strtoupper(auth()->user()->nombre_usuario) }}</span>!
-                </div>
-                <form method="POST" action="{{ route('logout') }}" class="w-48 m-0">
-                    @csrf
-                    <button type="submit" class="flex justify-center items-center gap-2 w-full h-12 border-2 border-[#ff0055] text-sm font-mono font-bold uppercase tracking-wider text-[#ff0055] hover:text-white hover:bg-[#ff0055]">
-                        <span class="material-symbols-outlined text-[1.1rem]">logout</span>
-                        CERRAR SESIÓN
-                    </button>
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="flex items-center justify-center gap-2 w-48 h-12 border-2 border-[#333] text-sm font-mono font-bold uppercase tracking-wider text-white">
-                    <span class="material-symbols-outlined text-[1.1rem]">login</span>
-                    INICIAR SESIÓN
-                </a>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="flex items-center justify-center gap-2 w-48 h-12 bg-primary text-black font-black uppercase tracking-wider text-sm shadow-neon">
-                        <span class="material-symbols-outlined text-[1.1rem]">person_add</span>
-                        REGÍSTRATE
-                    </a>
-                @endif
-            @endauth
-        @endif
-    </div>
 </header>
 
+    <div id="mobile-menu" class="fixed top-16 md:top-20 left-0 w-full bg-black/90 backdrop-blur-2xl z-[40] flex flex-col items-center justify-start pt-8 pb-10 opacity-0 pointer-events-none transition-all duration-500 scale-95 origin-top lg:hidden border-b border-[#333] shadow-[0_30px_60px_rgba(0,0,0,0.8)]">
+        <div class="flex flex-col items-center gap-4 w-full px-6 sm:px-10">
+            @if (Route::has('login'))
+                @auth
+                    <div class="flex flex-col items-center mb-4">
+                        <div class="text-text-dim font-mono text-[0.6rem] tracking-[0.3em] uppercase opacity-40 mb-2">Sesión activa</div>
+                        <div class="text-white font-bold text-3xl tracking-tighter stencil-text">
+                            {{ strtoupper(auth()->user()->nombre_usuario) }}
+                        </div>
+                    </div>
+
+                    <div class="w-full max-w-xs h-px bg-white/5 mb-6"></div>
+
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}" class="flex items-center justify-center gap-3 w-full max-w-xs h-14 border-2 border-primary text-primary font-black uppercase tracking-widest text-sm hover:bg-primary hover:text-black transition-all">
+                            <span class="material-symbols-outlined">security</span>
+                            PANEL ADMIN
+                        </a>
+                    @else
+                        <a href="{{ url('/armario') }}" class="flex items-center justify-center gap-3 w-full max-w-xs h-14 bg-primary text-black font-black uppercase tracking-widest text-sm shadow-[0_0_30px_rgba(231,255,0,0.2)]">
+                            <span class="material-symbols-outlined">checkroom</span>
+                            MI ARMARIO
+                        </a>
+                        <a href="{{ route('buzon.index') }}" class="flex items-center justify-center gap-3 w-full max-w-xs h-14 border-2 border-[#1a1a1a] text-sm font-mono font-bold uppercase tracking-widest text-white hover:border-primary transition-all">
+                            <span class="material-symbols-outlined">inbox</span>
+                            BUZÓN
+                            @if(auth()->user()->unreadMessagesCount() > 0)
+                                <span class="bg-red-600 text-white rounded-full px-2 py-0.5 text-[0.65rem] animate-pulse">{{ auth()->user()->unreadMessagesCount() }}</span>
+                            @endif
+                        </a>
+                    @endif
+                    
+                    <form method="POST" action="{{ route('logout') }}" class="w-full max-w-xs">
+                        @csrf
+                        <button type="submit" class="flex justify-center items-center gap-3 w-full h-14 border-2 border-red-500/30 text-sm font-mono font-bold uppercase tracking-widest text-red-500 hover:text-white hover:bg-red-500 hover:border-red-500 transition-all">
+                            <span class="material-symbols-outlined">logout</span>
+                            CERRAR SESIÓN
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="flex items-center justify-center gap-3 w-full max-w-xs h-14 border-2 border-[#1a1a1a] text-sm font-mono font-bold uppercase tracking-widest text-white">
+                        <span class="material-symbols-outlined">login</span>
+                        INICIAR SESIÓN
+                    </a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="flex items-center justify-center gap-3 w-full max-w-xs h-14 bg-primary text-black font-black uppercase tracking-widest text-sm">
+                            <span class="material-symbols-outlined">person_add</span>
+                            REGÍSTRATE
+                        </a>
+                    @endif
+                @endauth
+            @endif
+        </div>
+    </div>
 <section class="relative min-h-[90vh] md:min-h-screen flex flex-col pt-16 md:pt-20">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
@@ -200,16 +208,20 @@
         
     </div>
 
-    <div class="relative z-20 bg-primary text-black overflow-hidden py-3 border-y-2 border-black flex">
+    <div class="relative z-20 bg-primary text-black overflow-hidden py-3 border-y-2 border-black flex whitespace-nowrap">
         @php
             $marqueeItems = $equipos->isNotEmpty() ? $equipos : collect(['VINTAGE KITS', 'TRADING OPEN', 'SWAP OR DROP', 'AUTHENTIC GEAR']);
+            // Repetimos los items si hay pocos para que llenen la pantalla
+            if($marqueeItems->count() < 10) {
+                $marqueeItems = $marqueeItems->concat($marqueeItems)->concat($marqueeItems);
+            }
         @endphp
         @foreach([1,2] as $_)
-        <div class="flex whitespace-nowrap gap-10 font-mono font-bold text-xs md:text-sm tracking-widest items-center animate-marquee min-w-full">
+        <div class="flex shrink-0 items-center animate-marquee gap-10 pr-10">
             @foreach($marqueeItems as $equipo)
-                <span class="flex items-center gap-2">
+                <span class="flex items-center gap-2 font-mono font-bold text-xs md:text-sm tracking-widest uppercase">
                     <span class="material-symbols-outlined text-base">checkroom</span>
-                    {{ strtoupper($equipo) }}
+                    {{ $equipo }}
                 </span>
                 <span class="opacity-40">///</span>
             @endforeach
@@ -461,11 +473,13 @@
     menuBtn.addEventListener('click', () => {
         isMenuOpen = !isMenuOpen;
         if(isMenuOpen) {
-            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+            mobileMenu.classList.add('opacity-100', 'scale-100');
             menuBtn.innerHTML = '<span class="material-symbols-outlined text-3xl">close</span>';
             document.body.style.overflow = 'hidden';
         } else {
-            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+            mobileMenu.classList.remove('opacity-100', 'scale-100');
             menuBtn.innerHTML = '<span class="material-symbols-outlined text-3xl">menu</span>';
             document.body.style.overflow = '';
         }

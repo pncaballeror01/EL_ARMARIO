@@ -18,11 +18,17 @@
 
     .edit-container {
         max-width: 600px;
-        margin: 120px auto 50px auto; /* 120px gives space for the fixed navbar */
+        margin: 100px auto 50px auto;
         background-color: var(--bg-panel);
         border: 1px solid var(--border-color);
-        padding: 3rem;
+        padding: 1.5rem;
         box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    @media (min-width: 576px) {
+        .edit-container { padding: 2rem; }
+    }
+    @media (min-width: 768px) {
+        .edit-container { padding: 3rem; }
     }
 
     .section-title {

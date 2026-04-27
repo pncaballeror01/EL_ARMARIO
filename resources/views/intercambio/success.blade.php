@@ -18,8 +18,8 @@
                 <span class="material-symbols-outlined text-white" style="font-size: 5rem; animation: pulse 2s infinite;">sync</span>
             </div>
             
-            <h1 class="stencil-text text-white mb-4" style="font-size: 2.5rem;">
-                ESPERANDO RESPUESTA DE <br><span style="color: #ccff00; font-size: 3rem;">{{ '@' . ($objetivo->user->nombre_usuario ?? 'USUARIO') }}</span>
+            <h1 class="stencil-text text-white mb-4" style="font-size: clamp(1.5rem, 5vw, 2.5rem);">
+                ESPERANDO RESPUESTA DE <br><span style="color: #ccff00; font-size: clamp(2rem, 7vw, 3rem);">{{ '@' . ($objetivo->user->nombre_usuario ?? 'USUARIO') }}</span>
             </h1>
             
             <p class="font-monospace text-light mb-5 fs-5">

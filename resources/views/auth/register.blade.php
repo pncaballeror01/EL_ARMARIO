@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
-        <div class="col-md-4">
-            <div class="p-5 bg-black border-armario position-relative">
+    <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center py-4">
+        <div class="col-11 col-sm-9 col-md-7 col-lg-5">
+            <div class="p-4 p-md-5 bg-black border-armario position-relative">
                 <div class="position-absolute top-0 start-0 bg-primary text-black px-2 py-1 fw-bold small font-monospace" style="transform: translateY(-100%);">
                     NEW_USER_SECURE
                 </div>

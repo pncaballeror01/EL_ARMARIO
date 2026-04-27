@@ -4,9 +4,9 @@
 <nav class="bg-black py-3 border-bottom border-secondary">
     <div class="container d-flex justify-content-between align-items-center">
         <a href="{{ url('/') }}" class="text-decoration-none d-flex align-items-center text-white custom-hover">
-            <span class="material-symbols-outlined me-2" style="color: #ccff00">arrow_back</span>
-            <span class="material-symbols-outlined me-2" style="color: #ccff00">checkroom</span>
-            <span class="stencil-text h4 mb-0">EL ARMARIO</span>
+            <span class="material-symbols-outlined me-1 md:me-2" style="color: #ccff00">arrow_back</span>
+            <span class="material-symbols-outlined me-1 md:me-2 d-none d-sm-block" style="color: #ccff00">checkroom</span>
+            <span class="stencil-text h5 md:h4 mb-0 m-0">EL ARMARIO</span>
         </a>
     </div>
 </nav>
@@ -14,65 +14,68 @@
 <section class="py-5 bg-grid-metal" style="background-color: #050505; min-height: 85vh;">
     <div class="container">
         
-        <div class="d-flex align-items-center gap-3 mb-5">
-            <span class="material-symbols-outlined" style="font-size: 3rem; color: var(--primary-color);">inbox</span>
-            <h2 class="stencil-text display-5 text-white mb-0">TU <span class="text-primary">BUZÓN</span></h2>
+        <div class="d-flex align-items-center gap-2 md:gap-3 mb-4 md:mb-5">
+            <span class="material-symbols-outlined text-primary text-4xl md:text-[3rem]">inbox</span>
+            <h2 class="stencil-text text-3xl md:text-5xl text-white mb-0">TU <span class="text-primary">BUZÓN</span></h2>
         </div>
 
         <div class="row">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-12 col-md-10 col-lg-8 mx-auto px-2 md:px-0">
                 <div class="d-flex flex-column gap-3">
                     @forelse($chats as $chat)
                         @php
-                            $lastMsg = $chat->messages->first(); // Ya viene ordenado latest()
+                            $lastMsg = $chat->messages->first();
                             $other = $chat->otherUser();
                             $unreadCount = $chat->messages->where('user_id', '!=', auth()->id())->where('is_read', false)->count();
                         @endphp
-                        <div class="position-relative bg-black border border-secondary item-grial-interactive" style="transition: all 0.3s;">
-                            <a href="{{ route('buzon.show', $chat->id) }}" class="text-decoration-none d-block p-4">
-                                <div class="d-flex align-items-center gap-4">
-                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: #222; border: 2px solid var(--primary-color);">
-                                        <span class="material-symbols-outlined text-primary fs-2">person</span>
+                        <div class="position-relative bg-[#111] border border-[#333] hover:border-primary transition-all duration-300 group shadow-lg">
+                            <a href="{{ route('buzon.show', $chat->id) }}" class="text-decoration-none d-block p-3 p-md-4">
+                                <div class="d-flex align-items-center gap-3 gap-md-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-[45px] h-[45px] md:w-[65px] md:h-[65px] rounded-full d-flex align-items-center justify-content-center bg-black border-2 border-[#333] group-hover:border-primary transition-colors">
+                                            <span class="material-symbols-outlined text-[#555] group-hover:text-primary fs-5 md:fs-3 transition-colors">person</span>
+                                        </div>
                                     </div>
-                                    <div class="flex-grow-1">
+                                    <div class="flex-grow-1 min-width-0">
                                         <div class="d-flex justify-content-between align-items-center mb-1">
-                                            <h5 class="stencil-text text-white mb-0 fs-4">
+                                            <h5 class="stencil-text text-white mb-0 text-sm md:text-lg tracking-tight">
                                                 {{ strtoupper($other->nombre_usuario) }}
                                                 @if($unreadCount > 0)
-                                                    <span class="badge bg-danger ms-2 align-middle font-monospace" style="font-size: 0.6rem; vertical-align: text-top;">{{ $unreadCount }} NUEVOS</span>
+                                                    <span class="bg-primary text-black ms-2 px-2 py-0.5 font-black text-[0.6rem] uppercase">{{ $unreadCount }}</span>
                                                 @endif
                                             </h5>
                                             @if($lastMsg)
-                                                <small class="font-monospace text-muted">{{ $lastMsg->created_at->diffForHumans() }}</small>
+                                                <small class="font-mono text-[0.65rem] text-text-dim opacity-50">{{ $lastMsg->created_at->diffForHumans() }}</small>
                                             @endif
                                         </div>
-                                        <p class="font-monospace text-secondary mb-0 text-truncate" style="max-width: 80%;">
-                                            @if($lastMsg)
-                                                @if($lastMsg->system_type === 'proposal')
-                                                    <span class="material-symbols-outlined fs-6 align-middle text-primary me-1">inventory_2</span> Propuesta de intercambio
-                                                @elseif($lastMsg->system_type === 'info')
-                                                    <span class="material-symbols-outlined fs-6 align-middle text-info me-1">info</span> {{ $lastMsg->content }}
+                                        <div class="d-flex align-items-center gap-2">
+                                            <p class="font-mono text-[0.75rem] md:text-sm text-secondary mb-0 text-truncate opacity-80">
+                                                @if($lastMsg)
+                                                    @if($lastMsg->system_type === 'proposal')
+                                                        <span class="text-primary fw-bold">PROPUESTA RECIBIDA</span>
+                                                    @elseif($lastMsg->system_type === 'info')
+                                                        <i class="opacity-50">{{ $lastMsg->content }}</i>
+                                                    @else
+                                                        {{ $lastMsg->content }}
+                                                    @endif
                                                 @else
-                                                    {{ $lastMsg->content }}
+                                                    <span class="opacity-30 italic">Sin mensajes todavía</span>
                                                 @endif
-                                            @else
-                                                Sin mensajes.
-                                            @endif
-                                        </p>
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="text-end ps-3 border-start border-secondary d-flex flex-column justify-content-center align-items-end" style="min-height: 60px;">
-                                        <span class="material-symbols-outlined text-white-50 mt-auto">chevron_right</span>
+                                    <div class="flex-shrink-0 d-none d-sm-block">
+                                        <span class="material-symbols-outlined text-[#333] group-hover:text-primary transition-all group-hover:translate-x-1">arrow_forward_ios</span>
                                     </div>
                                 </div>
                             </a>
                             
-                            <!-- Botón Eliminar fuera del <a> -->
-                            <div class="position-absolute" style="top: 15px; right: 15px; z-index: 10;">
-                                <form action="{{ route('buzon.destroy', $chat->id) }}" method="POST" onsubmit="return confirm('¿Seguro que quieres borrar este chat? No podrás deshacerlo.');">
+                            <div class="position-absolute top-2 right-2 md:top-4 md:right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <form action="{{ route('buzon.destroy', $chat->id) }}" method="POST" onsubmit="return confirm('¿Eliminar esta conversación?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger border-0 p-1 rounded-circle d-flex" title="Eliminar Chat">
-                                        <span class="material-symbols-outlined" style="font-size: 1.2rem;">delete</span>
+                                    <button type="submit" class="p-1 text-red-500/50 hover:text-red-500 transition-colors bg-transparent border-0">
+                                        <span class="material-symbols-outlined text-sm md:text-lg">delete</span>
                                     </button>
                                 </form>
                             </div>
