@@ -3,7 +3,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-// La landing de invitado es lo primero que se ve (RF-INV-01)
+// La landing de invitado es lo primero que se ve
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 Route::get('/explorar', [HomeController::class, 'explorar'])->name('explorar');
 
@@ -29,12 +29,12 @@ Route::middleware('auth')->group(function () {
         // Buzon y Chats
         Route::get('/buzon', [\App\Http\Controllers\ChatController::class, 'index'])->name('buzon.index');
         Route::get('/buzon/{chat}', [\App\Http\Controllers\ChatController::class, 'show'])->name('buzon.show');
-        Route::post('/buzon/{chat}/mensaje', [\App\Http\Controllers\ChatController::class, 'sendMessage'])->name('buzon.message');
+        Route::post('/buzon/{chat}/mensaje', [\App\Http\Controllers\ChatController::class, 'enviarMensaje'])->name('buzon.message');
         Route::delete('/buzon/{chat}', [\App\Http\Controllers\ChatController::class, 'destroy'])->name('buzon.destroy');
-        
+
         // Trueques (acciones dentro del chat)
-        Route::post('/trueques/{trueque}/aceptar', [\App\Http\Controllers\ChatController::class, 'acceptProposal'])->name('trueques.accept');
-        Route::post('/trueques/{trueque}/rechazar', [\App\Http\Controllers\ChatController::class, 'rejectProposal'])->name('trueques.reject');
+        Route::post('/trueques/{trueque}/aceptar', [\App\Http\Controllers\ChatController::class, 'aceptarPropuesta'])->name('trueques.accept');
+        Route::post('/trueques/{trueque}/rechazar', [\App\Http\Controllers\ChatController::class, 'rechazarPropuesta'])->name('trueques.reject');
 
         Route::get('/armario', function () {
             $camisetas = App\Models\Camiseta::where('user_id', auth()->id())->with('images')->latest()->get();

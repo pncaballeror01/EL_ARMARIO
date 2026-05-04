@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('password_hash');
             // Roles definidos en tu análisis: Invitado, Usuario, Administrador
-            $table->enum('rol', ['Invitado', 'Usuario', 'Administrador', 'Superadministrador'])
+            $table->enum('rol', ['Invitado', 'Usuario', 'Administrador'])
                 ->default('Usuario');
             $table->timestamp('fecha_registro')->useCurrent();
             $table->timestamps();

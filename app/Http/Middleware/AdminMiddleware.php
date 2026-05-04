@@ -16,7 +16,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check() || !auth()->user()->isAdmin()) {
-            abort(403, 'Acceso denegado. Se requieren permisos de administrador (Sistema VAR).');
+            abort(403, 'Acceso denegado. Se requieren permisos de administrador.');
         }
         return $next($request);
     }

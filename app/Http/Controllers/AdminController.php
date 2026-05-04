@@ -17,7 +17,7 @@ class AdminController extends Controller
 
         $pendientes = Camiseta::where('estado_aprobacion', 'pendiente')->with(['user', 'images'])->latest()->get();
         $todasCamisetas = Camiseta::with(['user', 'images'])->latest()->get();
-        $usuarios = User::where('rol', '!=', 'Superadministrador')->latest()->get();
+        $usuarios = User::latest()->get();
         $intercambios = Trueque::with(['emisor', 'receptor'])->latest()->get();
         $usuariosPendientes = User::where('estado_aprobacion', 'pendiente')->latest()->get();
 
@@ -34,8 +34,7 @@ class AdminController extends Controller
     public function rechazarCamiseta($id)
     {
         $camiseta = Camiseta::findOrFail($id);
-        
-        // Requisito 2 (Pregunta Confirmada): Exterminación
+
         foreach($camiseta->images as $img) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($img->image_path);
             $img->delete();
@@ -71,7 +70,7 @@ class AdminController extends Controller
     public function updateUser(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        
+
         $request->validate([
             'nombre_usuario' => 'required|string|max:50|unique:usuarios,nombre_usuario,' . $id . ',id_usuario',
             'nombre_completo' => 'nullable|string|max:100',

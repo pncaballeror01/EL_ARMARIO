@@ -48,7 +48,7 @@ class ChatController extends Controller
         return view('chat.show', compact('chat', 'messages', 'otherUser'));
     }
 
-    public function sendMessage(Request $request, $id)
+    public function enviarMensaje(Request $request, $id)
     {
         $request->validate([
             'content' => 'required|string|max:1000'
@@ -71,16 +71,14 @@ class ChatController extends Controller
         return back();
     }
 
-    public function acceptProposal(Request $request, $id)
+    public function aceptarPropuesta(Request $request, $id)
     {
         $trueque = Trueque::findOrFail($id);
-        
+
         if ($trueque->receptor_id !== auth()->id()) {
             abort(403);
         }
 
-        // DB::transaction garantiza que TODAS las operaciones se aplican juntas
-        // o, si algo falla a mitad, ninguna tiene efecto. Evita datos a medias.
         DB::transaction(function () use ($trueque) {
             $trueque->update(['estado' => 'aceptado']);
 
@@ -131,13 +129,13 @@ class ChatController extends Controller
             }
         });
 
-        return back()->with('success', 'Propuesta aceptada. Ahora podéis conversar para el intercambio.');
+        return back()->with('Propuesta aceptada. Ahora podéis conversar para el intercambio.');
     }
 
-    public function rejectProposal(Request $request, $id)
+    public function rechazarPropuesta(Request $request, $id)
     {
         $trueque = Trueque::findOrFail($id);
-        
+
         if ($trueque->receptor_id !== auth()->id()) {
             abort(403);
         }
@@ -161,7 +159,7 @@ class ChatController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Has rechazado la propuesta.');
+        return back()->with('Has rechazado la propuesta.');
     }
 
     public function destroy($id)
@@ -172,9 +170,9 @@ class ChatController extends Controller
                 $q->where('user_one_id', $userId)
                   ->orWhere('user_two_id', $userId);
             })->firstOrFail();
-            
+
         $chat->delete();
-        
+
         return redirect()->route('buzon.index')->with('success', 'Chat eliminado correctamente.');
     }
 }

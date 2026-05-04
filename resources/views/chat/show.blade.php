@@ -9,7 +9,7 @@
             <span class="stencil-text fs-6 fs-md-5 mb-0 d-sm-none">VOLVER</span>
         </a>
         <div class="d-flex align-items-center gap-2">
-            <div class="w-[35px] h-[35px] md:w-[40px] md:h-[40px] rounded-circle d-flex align-items-center justify-content-center bg-[#222]" style="border: 2px solid var(--primary-color);">
+            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: #222; border: 2px solid var(--primary-color);">
                 <span class="material-symbols-outlined text-primary fs-6 md:fs-5">person</span>
             </div>
             <span class="stencil-text text-white fs-6 md:fs-5 text-truncate" style="max-width: 150px;">{{ strtoupper($otherUser->nombre_usuario) }}</span>

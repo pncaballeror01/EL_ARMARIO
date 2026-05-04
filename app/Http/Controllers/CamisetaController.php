@@ -59,7 +59,7 @@ class CamisetaController extends Controller
             }
         }
 
-        return redirect()->route('armario')->with('success', '¡Joya subida al armario con éxito!');
+        return redirect()->route('armario')->with('¡Joya subida al armario con éxito!');
     }
 
     /**
@@ -156,7 +156,7 @@ class CamisetaController extends Controller
             }
         }
 
-        return redirect()->route('camisetas.show', $camiseta)->with('success', '¡Joya actualizada en el armario con éxito!');
+        return redirect()->route('camisetas.show', $camiseta)->with('¡Joya actualizada en el armario con éxito!');
     }
 
     /**
@@ -168,13 +168,10 @@ class CamisetaController extends Controller
             abort(403, 'No tienes permiso para eliminar esta joya.');
         }
 
-        // Borrar imágenes físicas del storage
         foreach ($camiseta->images as $image) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($image->image_path);
         }
 
-        // Eloquent/BD se encargará de borrar los registros de camiseta_images por cascade si está configurado,
-        // o las borramos manualmente por si acaso:
         $camiseta->images()->delete();
         $camiseta->delete();
 
@@ -193,6 +190,6 @@ class CamisetaController extends Controller
         $camiseta->intercambiable = $request->has('intercambiable');
         $camiseta->save();
 
-        return back()->with('success', 'Visibilidad actualizada.');
+        return back()->with('Visibilidad actualizada.');
     }
 }

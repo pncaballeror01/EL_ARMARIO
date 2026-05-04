@@ -612,7 +612,7 @@
                                     <form action="{{ route('admin.destroyUser', $user->id_usuario) }}" method="POST" onsubmit="return confirm('¿Eliminar usuario definitivamente? Todo su inventario caerá con él.');" class="m-0">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger font-monospace border-[#ff0055] text-[#ff0055] hover:bg-[#ff0055] hover:text-white rounded-0">ELIMINAR</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger font-monospace  rounded-0">ELIMINAR</button>
                                     </form>
                                     @endif
                                 </div>
@@ -665,7 +665,7 @@
                                     <form action="{{ route('camisetas.destroy', $cam) }}" method="POST" class="m-0 p-0" onsubmit="return confirm('¿Borrar esta publicación permamentemente?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" title="Borrar publicación" class="btn btn-sm text-[#ff0055] font-monospace border border-[#ff0055] hover:bg-[#ff0055] hover:text-white rounded-0 px-2 d-flex align-items-center"><span class="material-symbols-outlined" style="font-size:18px;">delete</span></button>
+                                        <button type="submit" title="Borrar publicación" class="btn btn-sm  font-monospace border  hover:bg-[#ff0055] hover:text-white rounded-0 px-2 d-flex align-items-center"><span class="material-symbols-outlined" style="font-size:18px;">delete</span></button>
                                     </form>
                                 </div>
                             </td>

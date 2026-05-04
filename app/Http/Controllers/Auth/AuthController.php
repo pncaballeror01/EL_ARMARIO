@@ -39,7 +39,7 @@ class AuthController extends Controller
             'ciudad' => $request->ciudad,
             'email' => $request->email,
             'password_hash' => Hash::make($request->password),
-            'rol' => 'Usuario', // Perfil inicial por defecto [cite: 31]
+            'rol' => 'Usuario', // Perfil inicial por defecto
             'estado_aprobacion' => 'pendiente', // Los nuevos usuarios deben ser aprobados
         ]);
 
