@@ -131,6 +131,16 @@
         opacity: 0.4;
         transform: skewX(-15deg);
     }
+    .badge-pendiente {
+        background-color: #FF5500;
+        color: #FFFFFF;
+        border: 2px solid #FF5500;
+        box-shadow: 0 0 10px rgba(255, 85, 0, 0.4);
+        font-size: 0.65rem;
+        font-weight: 900;
+        letter-spacing: 1px;
+        padding: 3px 8px;
+    }
 </style>
 
 {{-- NAV VOLVER --}}
@@ -244,7 +254,9 @@
 
                             {{-- Badge disponibilidad --}}
                             <div class="position-absolute top-0 end-0 m-2">
-                                @if($camiseta->intercambiable)
+                                @if($camiseta->estado_aprobacion === 'pendiente')
+                                    <span class="badge-pendiente font-monospace text-uppercase">PENDIENTE DE APROBACIÓN</span>
+                                @elseif($camiseta->intercambiable)
                                     <span class="badge-disponible font-monospace text-uppercase">DISPONIBLE</span>
                                 @else
                                     <span class="badge-nodisponible font-monospace text-uppercase">NO DISP.</span>
