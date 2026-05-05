@@ -46,7 +46,8 @@ class CamisetaController extends Controller
             'año' => $validated['año'],
             'estado' => $validated['estado'],
             'descripcion' => $validated['descripcion'],
-            'intercambiable' => $request->has('intercambiable')
+            'intercambiable' => $request->has('intercambiable'),
+            'estado_aprobacion' => 'pendiente'
         ]);
 
         if ($request->hasFile('images')) {
